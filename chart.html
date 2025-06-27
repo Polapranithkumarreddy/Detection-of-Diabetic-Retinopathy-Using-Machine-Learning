@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Distribution - Diabetic Retinopathy Prediction</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* Slow down the animate.css zoomIn animation */
+        .animate__zoomIn {
+            animation-duration: 2s; /* Increase duration to 2 seconds */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/first" class="text-white text-xl font-bold">Diabetic Retinopathy Prediction</a>
+            <div class="space-x-4">
+                <a href="/first" class="text-white hover:text-blue-200">Home</a>
+                <a href="/login" class="text-white hover:text-blue-200">Login</a>
+                <a href="/preview" class="text-white hover:text-blue-200">Preview</a>
+                <a href="/performance" class="text-white hover:text-blue-200">Performance</a>
+                <a href="/chart" class="text-white hover:text-blue-200">Chart</a>
+                <a href="/logout" class="text-white hover:text-blue-200">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Chart -->
+    <div class="container mx-auto mt-8 p-4 animate__animated animate__zoomIn">
+        <h2 class="text-2xl font-bold text-blue-600 mb-4">Prediction Distribution (%)</h2>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            {% if values|length > 0 and values|sum > 0 %}
+                <div class="chart-container" style="position: relative; height: 400px; width: 100%;">
+                    <canvas id="barChart"></canvas>
+                </div>
+                <script>
+                    const ctx = document.getElementById('barChart').getContext('2d');
+                    const barChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: {{ labels | tojson }},
+                            datasets: [{
+                                label: 'Performance Metrics',
+                                data: {{ values | tojson }},
+                                backgroundColor: [
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)'
+                                ],
+                                borderColor: [
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            animation: {
+                                duration: 3000, // Slow down Chart.js animation to 3 seconds
+                                easing: 'easeOutQuart' // Smoother easing for a gradual effect
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    max: 100,
+                                    ticks: {
+                                        stepSize: 20
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        boxWidth: 20
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+            {% else %}
+                <p class="text-center text-gray-700 mb-6">No predictions have been made yet. Please upload an image on the Preview page to see the chart.</p>
+            {% endif %}
+        </div>
+    </div>
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'947ed7fd389d84a1',t:'MTc0ODYxNDUyNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+</body>
+</html>
