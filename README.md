@@ -1,4 +1,4 @@
-# Detection-of-Diabetic-Retinopathy-Using-Machine-Learning
+# Detection-of-Diabetic-Retinopathy-Using-Machine-Learning 🔗 [Live Demo](https://polapranithkumarreddy.github.io/Detection-of-Diabetic-Retinopathy-Using-Machine-Learning/) 
 
 This project is a Flask-based web application that uses a trained deep learning model to detect the severity of Diabetic Retinopathy (DR) from retinal images. The system provides prediction results along with performance metrics like accuracy, precision, recall, and F1-score.
 
